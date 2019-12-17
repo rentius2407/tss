@@ -1,0 +1,27 @@
+.dashboard-card-col {
+  border: 3px solid;
+}
+
+.primary-dashboard-card-col {
+  border-color: #3880ff;
+  ion-card-header,
+  ion-card-title {
+    color: #3880ff;
+  }
+}
+
+.warning-dashboard-card-col {
+  border-color: #ffce00;
+  ion-card-header,
+  ion-card-title {
+    color: #ffce00;
+  }
+}
+
+.danger-dashboard-card-col {
+  border-color: #f04141;
+  ion-card-header,
+  ion-card-title {
+    color: #f04141;
+  }
+}
