@@ -1,19 +1,25 @@
 import { Injectable } from '@angular/core';
+import { Storage } from '@ionic/storage';
+
+const WORKOUT_UNIQUE_KEY = 'workouts-unique-key';
 
 @Injectable({
     providedIn: 'root'
 })
 export class UniqueIdService {
 
-    private id = 0;
+    constructor(
+        private storage: Storage
+    ) { }
 
     get nextId() {
-        this.generateNextId();
-        return this.id;
+        return this.generateNextId();
     }
 
-    private generateNextId() {
-        this.id = this.id + 1;
+    private async generateNextId() {
+        const id = await this.storage.get(WORKOUT_UNIQUE_KEY);
+        let newId = id + 1;
+        return this.storage.set(WORKOUT_UNIQUE_KEY, newId);
     }
 
 }

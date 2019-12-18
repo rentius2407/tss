@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LoadingController } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { Workout } from '../workout.model';
 
 @Component({
   selector: 'app-add-workout',
@@ -71,10 +72,12 @@ export class AddWorkoutPage implements OnInit {
             this.retrieveWorkoutDate(),
             this.form.value.tss,
             this.workoutTypeService.findWorkoutTypeByName(this.form.value.type),
-          );
-        loadingEl.dismiss();
-        this.form.reset();
-        this.router.navigate(['/home/workouts']);
+          ).then((workouts: Workout[]) => {
+            loadingEl.dismiss();
+            this.form.reset();
+            this.router.navigate(['/home/workouts']);
+          });
+
       });
   }
 

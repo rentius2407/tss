@@ -18,12 +18,26 @@ export class WorkoutPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.workouts = this.workoutService.workouts;
+    this.workoutService.getWorkouts().then((workouts: Workout[]) => {
+      this.workouts = this.orderWorkouts(workouts);
+    });
+  }
+
+  orderWorkouts(workouts: Workout[]) {
+    if (workouts) {
+      return workouts.sort((a: Workout, b: Workout) => {
+        return b.time.getTime() - a.time.getTime();
+
+      });
+    }
+
+    return workouts;
   }
 
   deleteWorkout(workoutId: number) {
-    this.workoutService.delete(workoutId);
-    this.workouts = this.workoutService.workouts;
+    this.workoutService.delete(workoutId).then((workouts: Workout[]) => {
+      this.workouts = this.orderWorkouts(workouts);
+    });
   }
 
 }

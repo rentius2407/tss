@@ -14,35 +14,15 @@ export class AppComponent {
   constructor(private platform: Platform,
     private splashScreen: SplashScreen,
     private statusBar: StatusBar) {
-    this.sideMenu();
     this.initializeApp();
   }
 
   initializeApp() {
     this.platform.ready().then(() => {
-      this.statusBar.styleDefault();
-      this.splashScreen.hide();
+      setTimeout(() => {
+        this.splashScreen.hide();
+      }, 1000);
     });
   }
 
-  sideMenu() {
-    this.navigate =
-      [
-        {
-          title: 'Home',
-          url: '/home',
-          icon: 'home'
-        },
-        {
-          title: 'Chat',
-          url: '/chat',
-          icon: 'chatboxes'
-        },
-        {
-          title: 'Contacts',
-          url: '/contacts',
-          icon: 'contacts'
-        },
-      ];
-  }
 }

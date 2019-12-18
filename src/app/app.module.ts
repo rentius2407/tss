@@ -13,7 +13,11 @@ import { AppRoutingModule } from './app-routing.module';
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), IonicStorageModule.forRoot(), AppRoutingModule],
+  imports: [BrowserModule, IonicModule.forRoot(), IonicStorageModule.forRoot({
+    name: 'tssdb',
+    driverOrder: ['sqlite', 'indexeddb']
+  }),
+    AppRoutingModule],
   providers: [
     StatusBar,
     SplashScreen,
@@ -21,4 +25,4 @@ import { AppRoutingModule } from './app-routing.module';
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }

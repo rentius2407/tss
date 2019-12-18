@@ -1,6 +1,6 @@
 {
-  "appId": "com.udemycourse.ionicangular",
-  "appName": "ionic-angular-course",
+  "appId": "com.ren.training.tss",
+  "appName": "training-tss",
   "bundledWebRuntime": false,
   "webDir": "www"
 }

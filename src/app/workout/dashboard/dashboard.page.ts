@@ -1,5 +1,6 @@
 import { WorkoutService } from './../workout.service';
 import { Component, OnInit } from '@angular/core';
+import { Workout } from '../workout.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,46 +22,52 @@ export class DashboardPage implements OnInit {
   }
 
   ionViewWillEnter() {
-    this.setCtl();
-    this.setAtl();
-    this.setTSS();
+    this.setCtl().then(() => {
+      this.setAtl().then(() => {
+        this.setTSS();
+      })
+    });
   }
 
   setTSS() {
     this.tss = this.ctl - this.atl;
   }
 
-  setCtl() {
-    this.ctl = this.calculateTotalCtlTSS() / this.ctlDays;
+  async setCtl() {
+    const totalCtlTss = await this.calculateTotalCtlTSS();
+    this.ctl = totalCtlTss / this.ctlDays;
   }
 
-  setAtl() {
-    this.atl = this.calculateTotalAtlTSS() / this.atlDays;
+  async setAtl() {
+    const totalAtlTss = await this.calculateTotalAtlTSS();
+    this.atl = totalAtlTss / this.atlDays;
   }
 
-  calculateTotalCtlTSS() {
+  async calculateTotalCtlTSS() {
+    const workouts = await this.workoutService.getWorkouts();
     let totalCtlTSS = 0;
     const ctlFromDate = this.getCtlFromDate();
-
-    this.workoutService.workouts.forEach(function (workout) {
-      if (Date.parse(workout.time.toString()) >= ctlFromDate.getTime()) {
-        totalCtlTSS = totalCtlTSS + workout.tss;
-      }
-    });
-
+    if (workouts) {
+      workouts.forEach(function (workout) {
+        if (Date.parse(workout.time.toString()) >= ctlFromDate.getTime()) {
+          totalCtlTSS = totalCtlTSS + workout.tss;
+        }
+      });
+    }
     return totalCtlTSS;
   }
 
-  calculateTotalAtlTSS() {
+  async calculateTotalAtlTSS() {
+    const workouts = await this.workoutService.getWorkouts();
     let totalAtlTSS = 0;
-    const atlFromDate = this.getAtlFromDate();
-
-    this.workoutService.workouts.forEach(function (workout) {
-      if (Date.parse(workout.time.toString()) >= atlFromDate.getTime()) {
-        totalAtlTSS = totalAtlTSS + workout.tss;
-      }
-    });
-
+    if (workouts) {
+      const atlFromDate = this.getAtlFromDate();
+      workouts.forEach(function (workout) {
+        if (Date.parse(workout.time.toString()) >= atlFromDate.getTime()) {
+          totalAtlTSS = totalAtlTSS + workout.tss;
+        }
+      });
+    }
     return totalAtlTSS;
   }
 
